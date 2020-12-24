@@ -7,18 +7,17 @@
     tools:context=".Activities.HomeActivity">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relativeLayout"
-        android:layout_marginBottom="65dp"
-        />
+        android:layout_marginBottom="65dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav"
-        android:padding="5dp"
         android:layout_alignParentBottom="true"
-        android:id="@+id/bottomNav"/>
+        android:padding="5dp"
+        app:menu="@menu/bottom_nav" />
 
 </RelativeLayout>

@@ -1,7 +1,5 @@
 package com.example.retrofitexample.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.retrofitexample.R;
 import com.example.retrofitexample.RetrofitClient;
 import com.example.retrofitexample.modelResponse.RegisterResponse;
-
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,62 +55,55 @@ public class MainActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
         textViewLogin = findViewById(R.id.textViewLogin);
     }
+
     private void registerUser() {
-       String userName=editTextName.getText().toString();
-       String userEmail=editTextEmail.getText().toString();
-       String userPassword=editTextPassword.getText().toString();
+        String userName = editTextName.getText().toString();
+        String userEmail = editTextEmail.getText().toString();
+        String userPassword = editTextPassword.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-       if (userName.isEmpty()){
-           Toast.makeText(this, "enter user name", Toast.LENGTH_SHORT).show();
-           return;
-       }
-
-       if (userEmail.isEmpty()){
-           Toast.makeText(this, "enter user email", Toast.LENGTH_SHORT).show();
-           return;
-       }
-
-       if (!userEmail.matches(emailPattern)){
-           Toast.makeText(this, "enter valid email", Toast.LENGTH_SHORT).show();
-           return;
-       }
-
-       if (userPassword.isEmpty()){
-           Toast.makeText(this, "enter user password", Toast.LENGTH_SHORT).show();
-           return;
-       }
-
-       if (userPassword.length()<5){
-           Toast.makeText(this, "password length must be greater than four", Toast.LENGTH_SHORT).show();
-           return;
-       }
+        if (userName.isEmpty()) {
+            Toast.makeText(this, "enter user name", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (userEmail.isEmpty()) {
+            Toast.makeText(this, "enter user email", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!userEmail.matches(emailPattern)) {
+            Toast.makeText(this, "enter valid email", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (userPassword.isEmpty()) {
+            Toast.makeText(this, "enter user password", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (userPassword.length() < 5) {
+            Toast.makeText(this, "password length must be greater than four", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            Toast.makeText(this, "register", Toast.LENGTH_SHORT).show();
+        }
 
         Call<RegisterResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .register(userName,userEmail,userPassword);
+                .register(userName, userEmail, userPassword);
 
-       call.enqueue(new Callback<RegisterResponse>() {
-           @Override
-           public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+        call.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 
-               RegisterResponse registerResponse =response.body();
-               if (response.isSuccessful()){
-                   Toast.makeText(MainActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
-               }
-               else{
-                   Toast.makeText(MainActivity.this, registerResponse.getError(), Toast.LENGTH_SHORT).show();
-               }
-           }
+                RegisterResponse registerResponse = response.body();
+                if (response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, registerResponse.getError(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
-           @Override
-           public void onFailure(Call<RegisterResponse> call, Throwable t) {
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
 
-           }
-       });
+            }
+        });
     }
-
 
 
     private void switchOnLogin() {

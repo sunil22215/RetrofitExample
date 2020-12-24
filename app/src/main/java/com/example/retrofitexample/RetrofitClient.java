@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private  static String BASE_URL="http:// 192.168.0.107/userdata/register.php";
+    private  static String BASE_URL="http://192.168.0.107/userdata/";
     private  static RetrofitClient retrofitClient;
     private static Retrofit retrofit;
 
