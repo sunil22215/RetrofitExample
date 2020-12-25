@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.retrofitexample.R;
 import com.example.retrofitexample.RetrofitClient;
+import com.example.retrofitexample.SharedPrefManager;
 import com.example.retrofitexample.modelResponse.LoginResponse;
 
 import retrofit2.Call;
@@ -20,6 +21,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    SharedPrefManager sharedPrefManager;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
@@ -42,8 +44,10 @@ public class LoginActivity extends AppCompatActivity {
                 switchOnRegister();
             }
         });
+        sharedPrefManager = new SharedPrefManager(getApplicationContext());
 
     }
+
     private void initLayout() {
 
         editTextEmail = findViewById(R.id.editTextEmail);
@@ -52,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         textViewRegister = findViewById(R.id.textViewRegister);
 
     }
+
     private void userLogin() {
         String userMail = editTextEmail.getText().toString();
         String userPassword = editTextPassword.getText().toString();
@@ -88,10 +93,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
                 if (response.isSuccessful()) {
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    if (loginResponse.getError().equals("200")) {
+                        sharedPrefManager.saveUser(loginResponse.getUser());
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -109,5 +119,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void switchOnRegister() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (sharedPrefManager.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
     }
 }
