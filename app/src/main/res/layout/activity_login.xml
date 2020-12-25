@@ -28,7 +28,7 @@
         android:layout_marginRight="30dp">
 
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email" />
@@ -47,7 +47,7 @@
         app:passwordToggleEnabled="true">
 
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password" />

@@ -1,5 +1,6 @@
 package com.example.retrofitexample;
 
+import com.example.retrofitexample.modelResponse.LoginResponse;
 import com.example.retrofitexample.modelResponse.RegisterResponse;
 
 import retrofit2.Call;
@@ -15,4 +16,14 @@ public interface Api {
             @Field("email") String email,
             @Field("password") String password
     );
+
+    @FormUrlEncoded
+    @POST("login.php")
+    Call<LoginResponse> login(
+            @Field("email") String email,
+            @Field("password") String password
+    );
+
+
 }
+
