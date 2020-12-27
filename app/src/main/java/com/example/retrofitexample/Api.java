@@ -19,7 +19,8 @@ public interface Api {
             @Field("email") String email,
             @Field("password") String password
     );
- @FormUrlEncoded
+
+    @FormUrlEncoded
     @POST("login.php")
     Call<LoginResponse> login(
             @Field("email") String email,

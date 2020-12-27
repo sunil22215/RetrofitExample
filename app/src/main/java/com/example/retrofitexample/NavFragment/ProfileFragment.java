@@ -21,19 +21,18 @@ import retrofit2.Response;
 
 
 public class ProfileFragment extends Fragment {
+    SharedPrefManager sharedPrefManager;
+    int userId;
     private EditText editTextUserName;
     private EditText editTextUserEmail;
     private Button buttonUpdate;
-    SharedPrefManager sharedPrefManager;
-    int userId;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_profile, container, false);
-        sharedPrefManager=new SharedPrefManager(getActivity());
-         userId = sharedPrefManager.getUser().getId();
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        userId = sharedPrefManager.getUser().getId();
 
 
         editTextUserName = view.findViewById(R.id.editTextUserName);
@@ -78,27 +77,27 @@ public class ProfileFragment extends Fragment {
         Call<LoginResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .updateUserAccount(userId,userName,userEmail);
+                .updateUserAccount(userId, userName, userEmail);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-               LoginResponse updateResponse= response.body();
-               if (response.isSuccessful()){
-                   if (updateResponse.getError().equals("200")){
-                       sharedPrefManager.saveUser(updateResponse.getUser());
-                       Toast.makeText(getActivity(), updateResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                   }else{
-                       Toast.makeText(getActivity(), updateResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                   }
-               }else{
-                   Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
-               }
+                LoginResponse updateResponse = response.body();
+                if (response.isSuccessful()) {
+                    if (updateResponse.getError().equals("200")) {
+                        sharedPrefManager.saveUser(updateResponse.getUser());
+                        Toast.makeText(getActivity(), updateResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), updateResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(getActivity(),t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });

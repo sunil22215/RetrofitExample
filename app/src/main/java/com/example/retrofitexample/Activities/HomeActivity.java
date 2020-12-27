@@ -95,21 +95,21 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
                 DeleteResponse deleteResponse = response.body();
-                if (response.isSuccessful()){
-                    if (deleteResponse.getError().equals("200")){
+                if (response.isSuccessful()) {
+                    if (deleteResponse.getError().equals("200")) {
                         logoutUser();
                         Toast.makeText(HomeActivity.this, deleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(HomeActivity.this, deleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                }else
-                { Toast.makeText(HomeActivity.this, "Failed", Toast.LENGTH_SHORT).show();}
+                } else {
+                    Toast.makeText(HomeActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<DeleteResponse> call, Throwable t) {
-                Toast.makeText(HomeActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -118,8 +118,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     private void logoutUser() {
         sharedPrefManager.logOut();
-        Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
-        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
         Toast.makeText(this, "Logout Successfully", Toast.LENGTH_SHORT).show();

@@ -21,16 +21,16 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    SharedPrefManager sharedPrefManager;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
     private TextView textViewRegister;
-    SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPrefManager=new SharedPrefManager(getApplicationContext());
+        sharedPrefManager = new SharedPrefManager(getApplicationContext());
         setContentView(R.layout.activity_login);
         initLayout();
         setListenerOnView();
@@ -93,23 +93,23 @@ public class LoginActivity extends AppCompatActivity {
         Call<LoginResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .login(userEmail,userPassword);
+                .login(userEmail, userPassword);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
-                LoginResponse loginResponse=response.body();
-                if (response.isSuccessful()){
-                    if (loginResponse.getError().equals("200")){
+                LoginResponse loginResponse = response.body();
+                if (response.isSuccessful()) {
+                    if (loginResponse.getError().equals("200")) {
                         sharedPrefManager.saveUser(loginResponse.getUser());
                         Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
-                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
 
-                }else {
+                } else {
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
     private void switchOnRegister() {
 
         startActivity(new Intent(LoginActivity.this, MainActivity.class));

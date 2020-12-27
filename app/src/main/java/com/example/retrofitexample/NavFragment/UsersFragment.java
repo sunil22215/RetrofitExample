@@ -50,10 +50,10 @@ public class UsersFragment extends Fragment {
             @Override
             public void onResponse(Call<FetchUserResponse> call, Response<FetchUserResponse> response) {
 
-                if (response.isSuccessful()){
-                    userList=response.body().getUserList();
+                if (response.isSuccessful()) {
+                    userList = response.body().getUserList();
                     recyclerView.setAdapter(new UserListAdapter(userList, getActivity()));
-                }else{
+                } else {
                     Toast.makeText(getActivity(), response.body().getError(), Toast.LENGTH_SHORT).show();
                 }
             }
