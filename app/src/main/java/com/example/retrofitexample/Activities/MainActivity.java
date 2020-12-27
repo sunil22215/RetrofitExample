@@ -33,6 +33,20 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initLayout();
+        setListenerWithView();
+
+    }
+
+    private void initLayout() {
+        editTextName = findViewById(R.id.editTextName);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonRegister = findViewById(R.id.buttonRegister);
+        textViewLogin = findViewById(R.id.textViewLogin);
+    }
+
+
+    private void setListenerWithView() {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,15 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 switchOnLogin();
             }
         });
+
     }
 
-    private void initLayout() {
-        editTextName = findViewById(R.id.editTextName);
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        buttonRegister = findViewById(R.id.buttonRegister);
-        textViewLogin = findViewById(R.id.textViewLogin);
-    }
 
     private void registerUser() {
         String userName = editTextName.getText().toString();
@@ -65,21 +73,28 @@ public class MainActivity extends AppCompatActivity {
         if (userName.isEmpty()) {
             Toast.makeText(this, "enter user name", Toast.LENGTH_SHORT).show();
             return;
-        } else if (userEmail.isEmpty()) {
+        }
+
+        if (userEmail.isEmpty()) {
             Toast.makeText(this, "enter user email", Toast.LENGTH_SHORT).show();
             return;
-        } else if (!userEmail.matches(emailPattern)) {
+        }
+
+        if (!userEmail.matches(emailPattern)) {
             Toast.makeText(this, "enter valid email", Toast.LENGTH_SHORT).show();
             return;
-        } else if (userPassword.isEmpty()) {
+        }
+
+        if (userPassword.isEmpty()) {
             Toast.makeText(this, "enter user password", Toast.LENGTH_SHORT).show();
             return;
-        } else if (userPassword.length() < 5) {
+        }
+
+        if (userPassword.length() < 5) {
             Toast.makeText(this, "password length must be greater than four", Toast.LENGTH_SHORT).show();
             return;
-        } else {
-            Toast.makeText(this, "register", Toast.LENGTH_SHORT).show();
         }
+
 
         Call<RegisterResponse> call = RetrofitClient
                 .getInstance()
@@ -93,16 +108,21 @@ public class MainActivity extends AppCompatActivity {
                 RegisterResponse registerResponse = response.body();
                 if (response.isSuccessful()) {
                     Toast.makeText(MainActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 } else {
-                    Toast.makeText(MainActivity.this, registerResponse.getError(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
+
     }
 
 
