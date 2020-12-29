@@ -71,27 +71,48 @@ public class MainActivity extends AppCompatActivity {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (userName.isEmpty()) {
-            Toast.makeText(this, "enter user name", Toast.LENGTH_SHORT).show();
+            editTextName.requestFocus();
+            editTextName.setError("Please Enter your Name");
             return;
         }
 
         if (userEmail.isEmpty()) {
+<<<<<<< HEAD
             Toast.makeText(this, "enter user email", Toast.LENGTH_SHORT).show();
+=======
+           editTextEmail.requestFocus();
+           editTextEmail.setError("Enter your Email");
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
             return;
         }
 
         if (!userEmail.matches(emailPattern)) {
+<<<<<<< HEAD
             Toast.makeText(this, "enter valid email", Toast.LENGTH_SHORT).show();
+=======
+          editTextEmail.requestFocus();
+          editTextEmail.setError("Enter Valid Email");
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
             return;
         }
 
         if (userPassword.isEmpty()) {
+<<<<<<< HEAD
             Toast.makeText(this, "enter user password", Toast.LENGTH_SHORT).show();
+=======
+           editTextPassword.requestFocus();
+           editTextPassword.setError("Please Enter Your Password");
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
             return;
         }
 
         if (userPassword.length() < 5) {
+<<<<<<< HEAD
             Toast.makeText(this, "password length must be greater than four", Toast.LENGTH_SHORT).show();
+=======
+           editTextPassword.requestFocus();
+           editTextPassword.setError("Password Lenght");
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
             return;
         }
 
@@ -107,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
 
                 RegisterResponse registerResponse = response.body();
                 if (response.isSuccessful()) {
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                     Toast.makeText(MainActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                     intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);

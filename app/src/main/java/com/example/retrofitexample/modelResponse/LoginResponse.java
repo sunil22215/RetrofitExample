@@ -3,7 +3,10 @@ package com.example.retrofitexample.modelResponse;
 import com.example.retrofitexample.User;
 
 public class LoginResponse {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
     User user;
     private String error;
     private String message;

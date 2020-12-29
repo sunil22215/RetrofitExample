@@ -51,7 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 loginUser();
+=======
+                userLogin();
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
             }
         });
         textViewRegister.setOnClickListener(new View.OnClickListener() {
@@ -60,8 +64,10 @@ public class LoginActivity extends AppCompatActivity {
                 switchOnRegister();
             }
         });
+        sharedPrefManager = new SharedPrefManager(getApplicationContext());
 
 
+<<<<<<< HEAD
     }
 
     private void loginUser() {
@@ -122,14 +128,89 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+=======
+    private void initLayout() {
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
 
 
     }
+
+    private void userLogin() {
+        String userMail = editTextEmail.getText().toString();
+        String userPassword = editTextPassword.getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (userMail.isEmpty()) {
+            editTextEmail.requestFocus();
+            editTextEmail.setError("Please Enter Email");
+            return;
+        }
+
+        if (!userMail.matches(emailPattern)) {
+            editTextEmail.requestFocus();
+            editTextEmail.setError("Please Enter Valid Email");
+            return;
+        }
+
+        if (userPassword.isEmpty()) {
+            editTextPassword.requestFocus();
+            editTextPassword.setError("Please Enter Password");
+            return;
+        }
+
+        if (userPassword.length() < 5) {
+            editTextPassword.requestFocus();
+            editTextPassword.setError("Please Enter Valid Password");
+            return;
+        }
+
+        Call<LoginResponse> call = RetrofitClient.getInstance().getApi().login(userMail, userPassword);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if (response.isSuccessful()) {
+
+                    if (loginResponse.getError().equals("200")) {
+                        sharedPrefManager.saveUser(loginResponse.getUser());
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
 
     private void switchOnRegister() {
 
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
+<<<<<<< HEAD
 
+=======
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (sharedPrefManager.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+    }
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
 }

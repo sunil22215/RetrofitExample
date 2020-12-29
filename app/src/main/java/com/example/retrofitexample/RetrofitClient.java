@@ -1,5 +1,8 @@
 package com.example.retrofitexample;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -11,9 +14,17 @@ public class RetrofitClient {
 
 
     private RetrofitClient() {
+<<<<<<< HEAD
+=======
+
+       /* Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+*/
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create( ))
                 .build();
     }
 

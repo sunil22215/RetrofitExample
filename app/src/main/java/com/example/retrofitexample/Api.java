@@ -1,7 +1,10 @@
 package com.example.retrofitexample;
 
+<<<<<<< HEAD
 import com.example.retrofitexample.modelResponse.DeleteResponse;
 import com.example.retrofitexample.modelResponse.FetchUserResponse;
+=======
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
 import com.example.retrofitexample.modelResponse.LoginResponse;
 import com.example.retrofitexample.modelResponse.RegisterResponse;
 
@@ -27,6 +30,7 @@ public interface Api {
             @Field("password") String password
     );
 
+<<<<<<< HEAD
     @GET("fetchuser.php")
     Call<FetchUserResponse> fetchUsers();
 
@@ -44,4 +48,8 @@ public interface Api {
             @Field("id") int userid
 
     );
+=======
+
+>>>>>>> 004173b205b6d4d245ce77e901d138d9c3427239
 }
+
